@@ -40,13 +40,14 @@ body {
 
 #start {
     height: 150px;
-    width: 250px;
+    width: 30%;
+    display: block;
+    margin: auto;
+    /*margin-top: 175px;*/
     border-radius: 5px;
     background-color: blue;
     text-align: center;
     color: yellow;
-    margin-left: 40%;
-    margin-top: 175px;
 }
 
 #left,
@@ -57,10 +58,14 @@ body {
 #guessLocation,
 #homepage {
     height: 500px;
-    width: 70%;
+    width: 80%;
     display: block;
     margin: auto;
     background-color: rgb(54, 129, 255);
+}
+
+#homepage {
+    padding-top: 200px;
 }
 
 
