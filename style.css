@@ -1,0 +1,67 @@
+h1 {
+    text-align: center;
+}
+
+#left,
+#right {
+    float: left;
+    height: 100%;
+    width: 48%;
+}
+
+h3 {
+    font-size: 50px;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 250px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+#loading {
+    text-align: center;
+    height: 500px;
+    width: 70%;
+    display: block;
+    margin: auto;
+    background-color: rgb(54, 129, 255);
+}
+
+input {
+    margin-left: 40%;
+    margin-top: 5%;
+}
+
+body {
+    background-color: beige;
+}
+
+#start {
+    height: 150px;
+    width: 250px;
+    border-radius: 5px;
+    background-color: blue;
+    text-align: center;
+    color: yellow;
+    margin-left: 40%;
+    margin-top: 175px;
+}
+
+#left,
+#right {
+    width: 49%
+}
+
+#guessLocation,
+#homepage {
+    height: 500px;
+    width: 70%;
+    display: block;
+    margin: auto;
+    background-color: rgb(54, 129, 255);
+}
+
+
+/*22 17th avenue san mateo california 94402 */

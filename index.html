@@ -1,0 +1,34 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <h1>GeoGuesser Game (using Google Maps API)</h1>
+    <input id="search" placeholder="enter your guess">
+    <button id="submit">Drop a Pin</button>
+    <button id="remove">Clear Pin</button>
+    <button id="checkGuess">Check Your Guess</button>
+    <button id="tryAgain">Try Again</button>
+    <div id="homepage">
+        <button id="start"> Start Game</button>
+    </div>
+    <div id="loading">
+        <h3>Loading..</h3>
+    </div>
+    <div id="guessLocation">
+        <div id="left"></div>
+        <div id="right"></div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="app.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB487PSB0yPuTFh69P7_kLMjnarXy8c4JQ" async defer></script>
+
+</body>
+
+</html>
