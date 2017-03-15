@@ -53,6 +53,7 @@ function initMap() {
         document.getElementById('left'), {
 
             position: location,
+            //addressControl false removes address box
             addressControl: false,
             pov: {
                 heading: 34,
@@ -91,6 +92,8 @@ function processSVData(data, status) {
             pitch: 0
         });
         panorama.setVisible(true);
+        $("#answer").text(data.location.description).hide();
+        console.log(data.location);
         initMap2();
     } else {
         console.error('Street View data not found for this location.');
@@ -117,7 +120,8 @@ setInterval(function () {
 
 }, 1000)
 
-$("#submit").click(function () {
+//Geocode Address search bar disabled
+/*$("#submit").click(function () {
     var geocoder = new google.maps.Geocoder();
     geocodeAddress(geocoder, map2);
 });
@@ -137,10 +141,45 @@ function geocodeAddress(geocoder, resultsMap) {
             alert('Geocode was not successful for the following reason: ' + status);
         }
     });
-}
+}*/
+
+//Function to reverse geocode a place
+/*function geocodeLatLng(geocoder, map, infowindow) {
+    var input = randomLocation();
+    var latlngStr = input.split(',', 2);
+    var latlng = {
+        lat: parseFloat(latlngStr[0]),
+        lng: parseFloat(latlngStr[1])
+    };
+    geocoder.geocode({
+        'location': latlng
+    }, function (results, status) {
+        if (status === 'OK') {
+            if (results[1]) {
+                map.setZoom(11);
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map
+                });
+                infowindow.setContent(results[1].formatted_address);
+                infowindow.open(map, marker);
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
+    });
+}*/
 
 var refresh = document.getElementById("tryAgain");
 
 refresh.addEventListener("click", function () {
     initMap();
+})
+
+var check = document.getElementById("checkGuess");
+
+check.addEventListener("click", function () {
+    $("#answer").show();
 })
