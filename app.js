@@ -2,6 +2,7 @@ var streetViewService;
 var panorama;
 var maps2;
 var map;
+var markers = [];
 
 $(function () {
     $("#guessLocation").hide();
@@ -30,6 +31,11 @@ function initMap2() {
         scrollwheel: false,
         center: uluru
     });
+    // This event listener will call addMarker() when the map is clicked.
+    map2.addListener('click', function (event) {
+        addMarker(event.latLng);
+    });
+    //addMarker(uluru);
 }
 
 function initMap() {
@@ -183,3 +189,42 @@ var check = document.getElementById("checkGuess");
 check.addEventListener("click", function () {
     $("#answer").show();
 })
+
+var remove = document.getElementById("remove");
+
+remove.addEventListener("click", function () {
+    deleteMarkers();
+})
+
+// Adds a marker to the map and push to the array.
+function addMarker(location) {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map2
+    });
+    markers.push(marker);
+    console.log(marker);
+}
+
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+    setMapOnAll(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers() {
+    setMapOnAll(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+    clearMarkers();
+    markers = [];
+}
