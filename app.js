@@ -151,7 +151,7 @@ function geocodeAddress(geocoder, resultsMap) {
 
 //Function to reverse geocode a place
 /*function geocodeLatLng(geocoder, map, infowindow) {
-    var input = randomLocation();
+    var input = data.location.latLng;
     var latlngStr = input.split(',', 2);
     var latlng = {
         lat: parseFloat(latlngStr[0]),
@@ -188,6 +188,17 @@ var check = document.getElementById("checkGuess");
 
 check.addEventListener("click", function () {
     $("#answer").show();
+    //addMarker(data.location);
+    var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+    var beachMarker = new google.maps.Marker({
+        position: {
+            lat: 39,
+            lng: -98
+        },
+        //position: data.location.latLng,
+        map: map2,
+        icon: image
+    });
 })
 
 var remove = document.getElementById("remove");
