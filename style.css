@@ -52,7 +52,8 @@ body {
 
 #left,
 #right {
-    width: 49%
+    width: 49%;
+    position: relative;
 }
 
 #guessLocation,
@@ -66,6 +67,14 @@ body {
 
 #homepage {
     padding-top: 200px;
+}
+
+#answer {
+    /*position: absolute;
+    top: 250;
+    left: 200;*/
+    color: red;
+    font-size: 24px;
 }
 
 

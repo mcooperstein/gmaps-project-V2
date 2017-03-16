@@ -2,6 +2,7 @@ var streetViewService;
 var panorama;
 var maps2;
 var map;
+var markers = [];
 
 $(function () {
     $("#guessLocation").hide();
@@ -30,6 +31,11 @@ function initMap2() {
         scrollwheel: false,
         center: uluru
     });
+    // This event listener will call addMarker() when the map is clicked.
+    map2.addListener('click', function (event) {
+        addMarker(event.latLng);
+    });
+    //addMarker(uluru);
 }
 
 function initMap() {
@@ -53,6 +59,7 @@ function initMap() {
         document.getElementById('left'), {
 
             position: location,
+            //addressControl false removes address box
             addressControl: false,
             pov: {
                 heading: 34,
@@ -91,6 +98,8 @@ function processSVData(data, status) {
             pitch: 0
         });
         panorama.setVisible(true);
+        $("#answer").text(data.location.description).hide();
+        console.log(data.location);
         initMap2();
     } else {
         console.error('Street View data not found for this location.');
@@ -117,7 +126,8 @@ setInterval(function () {
 
 }, 1000)
 
-$("#submit").click(function () {
+//Geocode Address search bar disabled
+/*$("#submit").click(function () {
     var geocoder = new google.maps.Geocoder();
     geocodeAddress(geocoder, map2);
 });
@@ -137,10 +147,84 @@ function geocodeAddress(geocoder, resultsMap) {
             alert('Geocode was not successful for the following reason: ' + status);
         }
     });
-}
+}*/
+
+//Function to reverse geocode a place
+/*function geocodeLatLng(geocoder, map, infowindow) {
+    var input = randomLocation();
+    var latlngStr = input.split(',', 2);
+    var latlng = {
+        lat: parseFloat(latlngStr[0]),
+        lng: parseFloat(latlngStr[1])
+    };
+    geocoder.geocode({
+        'location': latlng
+    }, function (results, status) {
+        if (status === 'OK') {
+            if (results[1]) {
+                map.setZoom(11);
+                var marker = new google.maps.Marker({
+                    position: latlng,
+                    map: map
+                });
+                infowindow.setContent(results[1].formatted_address);
+                infowindow.open(map, marker);
+            } else {
+                window.alert('No results found');
+            }
+        } else {
+            window.alert('Geocoder failed due to: ' + status);
+        }
+    });
+}*/
 
 var refresh = document.getElementById("tryAgain");
 
 refresh.addEventListener("click", function () {
     initMap();
 })
+
+var check = document.getElementById("checkGuess");
+
+check.addEventListener("click", function () {
+    $("#answer").show();
+})
+
+var remove = document.getElementById("remove");
+
+remove.addEventListener("click", function () {
+    deleteMarkers();
+})
+
+// Adds a marker to the map and push to the array.
+function addMarker(location) {
+    var marker = new google.maps.Marker({
+        position: location,
+        map: map2
+    });
+    markers.push(marker);
+    console.log(marker);
+}
+
+// Sets the map on all markers in the array.
+function setMapOnAll(map) {
+    for (var i = 0; i < markers.length; i++) {
+        markers[i].setMap(map);
+    }
+}
+
+// Removes the markers from the map, but keeps them in the array.
+function clearMarkers() {
+    setMapOnAll(null);
+}
+
+// Shows any markers currently in the array.
+function showMarkers() {
+    setMapOnAll(map);
+}
+
+// Deletes all markers in the array by removing references to them.
+function deleteMarkers() {
+    clearMarkers();
+    markers = [];
+}
