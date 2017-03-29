@@ -3,6 +3,7 @@ var panorama;
 var maps2;
 var map;
 var markers = [];
+var numMarkers = 0;
 
 $(function () {
     $("#guessLocation").hide();
@@ -33,7 +34,9 @@ function initMap2() {
     });
     // This event listener will call addMarker() when the map is clicked.
     map2.addListener('click', function (event) {
-        addMarker(event.latLng);
+        if (numMarkers < 1) {
+            addMarker(event.latLng);
+        }
     });
     //addMarker(uluru);
 }
@@ -41,8 +44,7 @@ function initMap2() {
 function initMap() {
     var myLatLng = {
         lat: 98.35,
-        lng: 39.5,
-
+        lng: 39.5
     };
 
     map = new google.maps.Map(document.getElementById('left'), {
@@ -205,6 +207,7 @@ var remove = document.getElementById("remove");
 
 remove.addEventListener("click", function () {
     deleteMarkers();
+    numMarkers = 0;
 })
 
 // Adds a marker to the map and push to the array.
@@ -215,6 +218,7 @@ function addMarker(location) {
     });
     markers.push(marker);
     console.log(marker);
+    numMarkers++;
 }
 
 // Sets the map on all markers in the array.
