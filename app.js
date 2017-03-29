@@ -16,10 +16,6 @@ $(function () {
 
 $("#start").click(function () {
     initMap();
-    $("#start").hide();
-    $("#search").show();
-    $("#submit, #remove, #checkGuess, #tryAgain").show();
-    $("#homepage").hide();
 });
 
 function initMap2() {
@@ -39,9 +35,18 @@ function initMap2() {
         }
     });
     //addMarker(uluru);
+    var geocoder = new google.maps.Geocoder();
+    document.getElementById('checkGuess').addEventListener('click', function () {
+        geocodeAddress(geocoder, map2);
+    });
 }
 
 function initMap() {
+    $("#start").hide();
+    $("#search").show();
+    $("#submit, #remove, #checkGuess, #tryAgain").show();
+    $("#homepage").hide();
+    $("#guessLocation").hide();
     var myLatLng = {
         lat: 98.35,
         lng: 39.5
@@ -100,7 +105,8 @@ function processSVData(data, status) {
             pitch: 0
         });
         panorama.setVisible(true);
-        $("#answer").text(data.location.description).hide();
+        //$("#answer").text(data.location.description).hide();
+        $("#answer").text(data.location.description);
         console.log(data.location);
         initMap2();
     } else {
@@ -132,24 +138,26 @@ setInterval(function () {
 /*$("#submit").click(function () {
     var geocoder = new google.maps.Geocoder();
     geocodeAddress(geocoder, map2);
-});
+});*/
 
 function geocodeAddress(geocoder, resultsMap) {
-    var address = document.getElementById('search').value;
+    var address = document.getElementById('answer').innerHTML;
     geocoder.geocode({
         'address': address
     }, function (results, status) {
         if (status === 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
+            //resultsMap.setCenter(results[0].geometry.location);
+            var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
             var marker = new google.maps.Marker({
                 map: resultsMap,
-                position: results[0].geometry.location
+                position: results[0].geometry.location,
+                icon: image
             });
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
     });
-}*/
+}
 
 //Function to reverse geocode a place
 /*function geocodeLatLng(geocoder, map, infowindow) {
@@ -184,12 +192,14 @@ var refresh = document.getElementById("tryAgain");
 
 refresh.addEventListener("click", function () {
     initMap();
+    numMarkers = 0;
 })
 
-var check = document.getElementById("checkGuess");
+/*var check = document.getElementById("checkGuess");
 
 check.addEventListener("click", function () {
-    $("#answer").show();
+    $("#answer").css("color", "red");
+
     //addMarker(data.location);
     var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
     var beachMarker = new google.maps.Marker({
@@ -197,11 +207,11 @@ check.addEventListener("click", function () {
             lat: 39,
             lng: -98
         },
-        //position: data.location.latLng,
+        //position: data.location,
         map: map2,
         icon: image
     });
-})
+})*/
 
 var remove = document.getElementById("remove");
 
