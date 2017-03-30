@@ -19,14 +19,14 @@ $("#start").click(function () {
 });
 
 function initMap2() {
-    var uluru = {
+    var usa = {
         lat: 39.5,
         lng: -98.45
     };
     map2 = new google.maps.Map(document.getElementById('right'), {
         zoom: 3,
         scrollwheel: false,
-        center: uluru
+        center: usa
     });
     // This event listener will call addMarker() when the map is clicked.
     map2.addListener('click', function (event) {
@@ -34,7 +34,7 @@ function initMap2() {
             addMarker(event.latLng);
         }
     });
-    //addMarker(uluru);
+    //addMarker(usa);
     var geocoder = new google.maps.Geocoder();
     document.getElementById('checkGuess').addEventListener('click', function () {
         geocodeAddress(geocoder, map2);
@@ -107,6 +107,7 @@ function processSVData(data, status) {
         panorama.setVisible(true);
         //$("#answer").text(data.location.description).hide();
         $("#answer").text(data.location.description);
+        //$("#answer").text("The answer was: " + data.location.description);
         console.log(data.location);
         initMap2();
     } else {
@@ -153,6 +154,7 @@ function geocodeAddress(geocoder, resultsMap) {
                 position: results[0].geometry.location,
                 icon: image
             });
+            $("#answer, #reveal").css("color", "red");
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
@@ -193,6 +195,7 @@ var refresh = document.getElementById("tryAgain");
 refresh.addEventListener("click", function () {
     initMap();
     numMarkers = 0;
+    $("#answer, #reveal").css("color", "beige");
 })
 
 /*var check = document.getElementById("checkGuess");
