@@ -1,3 +1,12 @@
+// API Key: AIzaSyBxzjNVPV6tghQ75IZ-PBrEpm4dr1AgObQ
+// example API endpoint: https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Vancouver+BC|Seattle&destinations=San+Francisco|Victoria+BC&mode=bicycling&language=eng-ENG&key=AIzaSyBxzjNVPV6tghQ75IZ-PBrEpm4dr1AgObQ
+
+/*
+var string = "Marc Cooperstein";
+string.slice(1, -1)
+"arc Cooperstei"
+*/
+
 var streetViewService;
 var panorama;
 var maps2;
@@ -107,6 +116,7 @@ function processSVData(data, status) {
         panorama.setVisible(true);
         //$("#answer").text(data.location.description).hide();
         $("#answer").text(data.location.description);
+        //window.answer = data.location.description; - tried passing variable to global window object
         //$("#answer").text("The answer was: " + data.location.description);
         console.log(data.location);
         initMap2();
@@ -143,6 +153,7 @@ setInterval(function () {
 
 function geocodeAddress(geocoder, resultsMap) {
     var address = document.getElementById('answer').innerHTML;
+    //var address = window.address;
     geocoder.geocode({
         'address': address
     }, function (results, status) {
@@ -154,7 +165,13 @@ function geocodeAddress(geocoder, resultsMap) {
                 position: results[0].geometry.location,
                 icon: image
             });
-            $("#answer, #reveal").css("color", "red");
+            var answerCoordinates = results[0].geometry.location
+            console.log(answerCoordinates);
+            answerCoordinates.toString().slice(1, -1);
+            console.log(answerCoordinates);
+            $("#answerCoordinates").text(answerCoordinates);
+            //console.log(results[0].geometry.location)
+            //$("#answer, #reveal").css("color", "red");
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
