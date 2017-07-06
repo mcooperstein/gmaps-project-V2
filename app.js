@@ -165,11 +165,17 @@ function geocodeAddress(geocoder, resultsMap) {
                 position: results[0].geometry.location,
                 icon: image
             });
-            var answerCoordinates = results[0].geometry.location
+            var answerCoord = marker.position
+
             console.log(answerCoordinates);
-            answerCoordinates.toString().slice(1, -1);
-            console.log(answerCoordinates);
-            $("#answerCoordinates").text(answerCoordinates);
+            $("#answerCoordinates").text(answerCoord)
+            var answerCoord2 = document.getElementById("answerCoordinates").innerHTML
+            $("#answerCoordinates").text(answerCoord2.slice(1, -1));
+            apiCall3();
+            //answerCoordinates.toString().slice(1, -1);
+            //console.log(answerCoordinates);
+            //$("#answerCoordinates").text(answerCoordinates);
+            //console.log(parseFloat($("#answerCoordinates").text(answerCoordinates)));
             //console.log(results[0].geometry.location)
             //$("#answer, #reveal").css("color", "red");
         } else {
@@ -247,7 +253,15 @@ function addMarker(location) {
         map: map2
     });
     markers.push(marker);
-    console.log(marker);
+    console.log(marker.position);
+    var coords = marker.position
+        /* var coords2 = coords.substring(1, -1);
+         console.log(coords2)*/
+    $("#guessCoordinates").text(marker.position);
+    var coords2 = document.getElementById("guessCoordinates").innerHTML
+    console.log(coords2)
+        //console.log(coords2.slice(1, -1))
+    $("#guessCoordinates").text(coords2.slice(1, -1));
     numMarkers++;
 }
 
@@ -272,4 +286,22 @@ function showMarkers() {
 function deleteMarkers() {
     clearMarkers();
     markers = [];
+}
+
+function myFunction() {
+    if (this.readyState == 4 && this.status == 200) {
+        var json = JSON.parse(this.responseText);
+        console.log(json)
+        $("#distance").text("Distance: " + json.rows.elements[0].distance.text);
+    }
+}
+
+function apiCall3() {
+    var guessCoords = document.getElementById("guessCoordinates").innerHTML
+    var answerCoords = document.getElementById("answerCoordinates").innerHTML;
+    var myRequest = new XMLHttpRequest();
+    myRequest.onreadystatechange = myFunction;
+    myRequest.open("GET", "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + guessCoords + "&destinations=" + answerCoords + "&key=AIzaSyBxzjNVPV6tghQ75IZ-PBrEpm4dr1AgObQ");
+    myRequest.send();
+    console.log(myRequest);
 }
