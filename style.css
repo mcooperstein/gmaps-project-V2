@@ -69,12 +69,17 @@ body {
     padding-top: 200px;
 }
 
-#answer {
+#answer,
+#reveal {
     /*position: absolute;
     top: 250;
     left: 200;*/
-    color: red;
+    color: beige;
     font-size: 24px;
+}
+
+#reveal {
+    text-align: center;
 }
 
 

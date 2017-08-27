@@ -1,8 +1,18 @@
+// API Key: AIzaSyBxzjNVPV6tghQ75IZ-PBrEpm4dr1AgObQ
+// example API endpoint: https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=Vancouver+BC|Seattle&destinations=San+Francisco|Victoria+BC&mode=bicycling&language=eng-ENG&key=AIzaSyBxzjNVPV6tghQ75IZ-PBrEpm4dr1AgObQ
+
+/*
+var string = "Marc Cooperstein";
+string.slice(1, -1)
+"arc Cooperstei"
+*/
+
 var streetViewService;
 var panorama;
 var maps2;
 var map;
 var markers = [];
+var numMarkers = 0;
 
 $(function () {
     $("#guessLocation").hide();
@@ -15,34 +25,40 @@ $(function () {
 
 $("#start").click(function () {
     initMap();
-    $("#start").hide();
-    $("#search").show();
-    $("#submit, #remove, #checkGuess, #tryAgain").show();
-    $("#homepage").hide();
 });
 
 function initMap2() {
-    var uluru = {
+    var usa = {
         lat: 39.5,
         lng: -98.45
     };
     map2 = new google.maps.Map(document.getElementById('right'), {
         zoom: 3,
         scrollwheel: false,
-        center: uluru
+        center: usa
     });
     // This event listener will call addMarker() when the map is clicked.
     map2.addListener('click', function (event) {
-        addMarker(event.latLng);
+        if (numMarkers < 1) {
+            addMarker(event.latLng);
+        }
     });
-    //addMarker(uluru);
+    //addMarker(usa);
+    var geocoder = new google.maps.Geocoder();
+    document.getElementById('checkGuess').addEventListener('click', function () {
+        geocodeAddress(geocoder, map2);
+    });
 }
 
 function initMap() {
+    $("#start").hide();
+    $("#search").show();
+    $("#submit, #remove, #checkGuess, #tryAgain").show();
+    $("#homepage").hide();
+    $("#guessLocation").hide();
     var myLatLng = {
         lat: 98.35,
-        lng: 39.5,
-
+        lng: 39.5
     };
 
     map = new google.maps.Map(document.getElementById('left'), {
@@ -98,7 +114,10 @@ function processSVData(data, status) {
             pitch: 0
         });
         panorama.setVisible(true);
-        $("#answer").text(data.location.description).hide();
+        //$("#answer").text(data.location.description).hide();
+        $("#answer").text(data.location.description);
+        //window.answer = data.location.description; - tried passing variable to global window object
+        //$("#answer").text("The answer was: " + data.location.description);
         console.log(data.location);
         initMap2();
     } else {
@@ -130,28 +149,44 @@ setInterval(function () {
 /*$("#submit").click(function () {
     var geocoder = new google.maps.Geocoder();
     geocodeAddress(geocoder, map2);
-});
+});*/
 
 function geocodeAddress(geocoder, resultsMap) {
-    var address = document.getElementById('search').value;
+    var address = document.getElementById('answer').innerHTML;
+    //var address = window.address;
     geocoder.geocode({
         'address': address
     }, function (results, status) {
         if (status === 'OK') {
-            resultsMap.setCenter(results[0].geometry.location);
+            //resultsMap.setCenter(results[0].geometry.location);
+            var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
             var marker = new google.maps.Marker({
                 map: resultsMap,
-                position: results[0].geometry.location
+                position: results[0].geometry.location,
+                icon: image
             });
+            var answerCoord = marker.position
+
+            console.log(answerCoordinates);
+            $("#answerCoordinates").text(answerCoord)
+            var answerCoord2 = document.getElementById("answerCoordinates").innerHTML
+            $("#answerCoordinates").text(answerCoord2.slice(1, -1));
+            apiCall3();
+            //answerCoordinates.toString().slice(1, -1);
+            //console.log(answerCoordinates);
+            //$("#answerCoordinates").text(answerCoordinates);
+            //console.log(parseFloat($("#answerCoordinates").text(answerCoordinates)));
+            //console.log(results[0].geometry.location)
+            //$("#answer, #reveal").css("color", "red");
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
     });
-}*/
+}
 
 //Function to reverse geocode a place
 /*function geocodeLatLng(geocoder, map, infowindow) {
-    var input = randomLocation();
+    var input = data.location.latLng;
     var latlngStr = input.split(',', 2);
     var latlng = {
         lat: parseFloat(latlngStr[0]),
@@ -182,18 +217,33 @@ var refresh = document.getElementById("tryAgain");
 
 refresh.addEventListener("click", function () {
     initMap();
+    numMarkers = 0;
+    $("#answer, #reveal").css("color", "beige");
 })
 
-var check = document.getElementById("checkGuess");
+/*var check = document.getElementById("checkGuess");
 
 check.addEventListener("click", function () {
-    $("#answer").show();
-})
+    $("#answer").css("color", "red");
+
+    //addMarker(data.location);
+    var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+    var beachMarker = new google.maps.Marker({
+        position: {
+            lat: 39,
+            lng: -98
+        },
+        //position: data.location,
+        map: map2,
+        icon: image
+    });
+})*/
 
 var remove = document.getElementById("remove");
 
 remove.addEventListener("click", function () {
     deleteMarkers();
+    numMarkers = 0;
 })
 
 // Adds a marker to the map and push to the array.
@@ -203,7 +253,16 @@ function addMarker(location) {
         map: map2
     });
     markers.push(marker);
-    console.log(marker);
+    console.log(marker.position);
+    var coords = marker.position
+        /* var coords2 = coords.substring(1, -1);
+         console.log(coords2)*/
+    $("#guessCoordinates").text(marker.position);
+    var coords2 = document.getElementById("guessCoordinates").innerHTML
+    console.log(coords2)
+        //console.log(coords2.slice(1, -1))
+    $("#guessCoordinates").text(coords2.slice(1, -1));
+    numMarkers++;
 }
 
 // Sets the map on all markers in the array.
@@ -227,4 +286,22 @@ function showMarkers() {
 function deleteMarkers() {
     clearMarkers();
     markers = [];
+}
+
+function myFunction() {
+    if (this.readyState == 4 && this.status == 200) {
+        var json = JSON.parse(this.responseText);
+        console.log(json)
+        $("#distance").text("Distance: " + json.rows.elements[0].distance.text);
+    }
+}
+
+function apiCall3() {
+    var guessCoords = document.getElementById("guessCoordinates").innerHTML
+    var answerCoords = document.getElementById("answerCoordinates").innerHTML;
+    var myRequest = new XMLHttpRequest();
+    myRequest.onreadystatechange = myFunction;
+    myRequest.open("GET", "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + guessCoords + "&destinations=" + answerCoords + "&key=AIzaSyBxzjNVPV6tghQ75IZ-PBrEpm4dr1AgObQ");
+    myRequest.send();
+    console.log(myRequest);
 }
