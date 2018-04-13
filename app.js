@@ -301,7 +301,7 @@ function apiCall3() {
     var answerCoords = document.getElementById("answerCoordinates").innerHTML;
     var myRequest = new XMLHttpRequest();
     myRequest.onreadystatechange = myFunction;
-    myRequest.open("GET", "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + guessCoords + "&destinations=" + answerCoords + "&key=AIzaSyBxzjNVPV6tghQ75IZ-PBrEpm4dr1AgObQ");
+    myRequest.open("GET", "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + guessCoords + "&destinations=" + answerCoords + "&key=AIzaSyDagLHdqiHjZzqf2kJUI7MwRR0TTC7qzZk");
     myRequest.send();
     console.log(myRequest);
 }
