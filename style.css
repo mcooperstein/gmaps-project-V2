@@ -39,9 +39,10 @@ body {
 }
 
 #buttons {
-  width: 50%;
   display:flex;
   justify-content: space-between;
+  width: 50%;
+  margin: 10px auto;
 }
 
 #start {
