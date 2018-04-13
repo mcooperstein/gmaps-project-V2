@@ -13,6 +13,10 @@ var maps2;
 var map;
 var markers = [];
 var numMarkers = 0;
+let latCoords2 = "";
+let lonCoords2 = "";
+let latAnswer = "";
+let lonAnswer = "";
 
 $(function () {
     $("#guessLocation").hide();
@@ -167,10 +171,27 @@ function geocodeAddress(geocoder, resultsMap) {
             });
             var answerCoord = marker.position
 
-            console.log(answerCoordinates);
+
             $("#answerCoordinates").text(answerCoord)
             var answerCoord2 = document.getElementById("answerCoordinates").innerHTML
             $("#answerCoordinates").text(answerCoord2.slice(1, -1));
+            console.log(answerCoord2);
+
+            let answerCoordsArr = answerCoord2.split(" ");
+
+            for (let i = 1; i < answerCoordsArr[0].length - 1; i++) {
+                latAnswer += answerCoordsArr[0][i];
+            }
+            for (let i = 0; i < answerCoordsArr[1].length - 1; i++) {
+                lonAnswer += answerCoordsArr[1][i];
+            }
+            latAnswer = Number(latAnswer)
+            lonAnswer = Number(lonAnswer)
+            console.log(latAnswer, lonAnswer);
+
+
+
+
             apiCall3();
             //answerCoordinates.toString().slice(1, -1);
             //console.log(answerCoordinates);
@@ -259,8 +280,19 @@ function addMarker(location) {
          console.log(coords2)*/
     $("#guessCoordinates").text(marker.position);
     var coords2 = document.getElementById("guessCoordinates").innerHTML
-    console.log(coords2)
-        //console.log(coords2.slice(1, -1))
+        //console.log(typeof coords2, coords2.split(" "))
+    let coords2Arr = coords2.split(" ");
+
+    for (let i = 1; i < coords2Arr[0].length - 1; i++) {
+        latCoords2 += coords2Arr[0][i];
+    }
+    for (let i = 0; i < coords2Arr[1].length - 1; i++) {
+        lonCoords2 += coords2Arr[1][i];
+    }
+    latCoords2 = Number(latCoords2)
+    lonCoords2 = Number(lonCoords2)
+    console.log(latCoords2, lonCoords2);
+    //console.log(coords2.slice(1, -1))
     $("#guessCoordinates").text(coords2.slice(1, -1));
     numMarkers++;
 }
@@ -304,4 +336,24 @@ function apiCall3() {
     myRequest.open("GET", "https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=" + guessCoords + "&destinations=" + answerCoords + "&key=AIzaSyDagLHdqiHjZzqf2kJUI7MwRR0TTC7qzZk");
     myRequest.send();
     console.log(myRequest);
+    getDistanceFromLatLonInKm(latCoords2, lonCoords2, latAnswer, lonAnswer);
+}
+
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2 - lat1); // deg2rad below
+    var dLon = deg2rad(lon2 - lon1);
+    var a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c; // Distance in km
+    d *= 0.621372 // convert km to miles
+        //return d;
+    $("#distance").text("Your guess was " + parseInt(d) + " miles away from actual location");
+}
+
+function deg2rad(deg) {
+    return deg * (Math.PI / 180)
 }

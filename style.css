@@ -1,6 +1,7 @@
 h1 {
     text-align: center;
     font-family: 'Amatic SC', cursive;
+    font-size: 70px;
 }
 
 #left,
@@ -23,7 +24,7 @@ h3 {
 
 #loading {
     text-align: center;
-    height: 500px;
+    height: 400px;
     width: 70%;
     display: block;
     margin: auto;
@@ -40,14 +41,14 @@ body {
 }
 
 h5 {
-  color: beige;
+    color: beige;
 }
 
 #buttons {
-  display:flex;
-  justify-content: space-between;
-  width: 50%;
-  margin: 10px auto;
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin: 10px auto;
 }
 
 #start {
@@ -70,7 +71,7 @@ h5 {
 
 #guessLocation,
 #homepage {
-    height: 500px;
+    height: 400px;
     width: 80%;
     display: block;
     margin: auto;
@@ -78,7 +79,7 @@ h5 {
 }
 
 #homepage {
-    padding-top: 200px;
+    padding-top: 120px;
 }
 
 #answer,
@@ -92,6 +93,11 @@ h5 {
 
 #reveal {
     text-align: center;
+}
+
+#distance {
+    text-align: center;
+    margin: 10px auto;
 }
 
 
