@@ -38,6 +38,10 @@ body {
     background-color: beige;
 }
 
+h5 {
+  color: beige;
+}
+
 #buttons {
   display:flex;
   justify-content: space-between;
