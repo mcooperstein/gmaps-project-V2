@@ -175,30 +175,23 @@ function geocodeAddress(geocoder, resultsMap) {
             $("#answerCoordinates").text(answerCoord)
             var answerCoord2 = document.getElementById("answerCoordinates").innerHTML
             $("#answerCoordinates").text(answerCoord2.slice(1, -1));
-            console.log(answerCoord2);
+            //console.log(answerCoord2);
 
             let answerCoordsArr = answerCoord2.split(" ");
-
+            latAnswer = "";
+            lonAnswer = "";
             for (let i = 1; i < answerCoordsArr[0].length - 1; i++) {
                 latAnswer += answerCoordsArr[0][i];
             }
             for (let i = 0; i < answerCoordsArr[1].length - 1; i++) {
                 lonAnswer += answerCoordsArr[1][i];
             }
+
             latAnswer = Number(latAnswer)
             lonAnswer = Number(lonAnswer)
-            console.log(latAnswer, lonAnswer);
-
-
-
 
             apiCall3();
-            //answerCoordinates.toString().slice(1, -1);
-            //console.log(answerCoordinates);
-            //$("#answerCoordinates").text(answerCoordinates);
-            //console.log(parseFloat($("#answerCoordinates").text(answerCoordinates)));
-            //console.log(results[0].geometry.location)
-            //$("#answer, #reveal").css("color", "red");
+
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
@@ -237,6 +230,14 @@ function geocodeAddress(geocoder, resultsMap) {
 var refresh = document.getElementById("tryAgain");
 
 refresh.addEventListener("click", function () {
+    latCoords2 = "";
+    lonCoords2 = "";
+    latAnswer = "";
+    lonAnswer = "";
+    $("#distance").text("");
+    $("#guessCoordinates").text("");
+    $("#answerCoordinates").text("");
+    $("#answer").text("");
     initMap();
     numMarkers = 0;
     $("#answer, #reveal").css("color", "beige");
