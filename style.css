@@ -38,6 +38,12 @@ body {
     background-color: beige;
 }
 
+#buttons {
+  width: 50%;
+  display:flex;
+  justify-content: space-between;
+}
+
 #start {
     height: 150px;
     width: 30%;
@@ -52,7 +58,7 @@ body {
 
 #left,
 #right {
-    width: 49%;
+    width: 50%;
     position: relative;
 }
 
